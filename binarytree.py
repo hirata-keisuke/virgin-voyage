@@ -8,88 +8,121 @@ Original file is located at
 """
 
 class BinaryNode:
-  def __init__(self, data):
-    self.__data = data
-    self.__alone = True
-    self.__parent = None
-    self.__right = None
-    self.__left = None
+    def __init__(self, data):
+        self._data = data
+        self._alone = True
+        self._parent = None
+        self._right = None
+        self._left = None
 
-  def set_data(self, data):
-    self.__data = data
+    def set_data(self, data):
+        self._data = data
 
-  def set_alone(self, alone):
-    self.__alone = alone
+    def set_alone(self, alone):
+        self._alone = alone
 
-  def set_parent(self, parent):
-    self.__parent = parent
+    def set_parent(self, parent):
+        self._parent = parent
 
-  def set_right(self, right):
-    self.__right = right
+    def set_right(self, right):
+        self._right = right
 
-  def set_left(self, left):
-    self.__left = left 
+    def set_left(self, left):
+        self._left = left
 
-  def get_data(self):
-    return self.__data
+    @property
+    def data(self):
+        return self._data
 
-  def is_alone(self):
-    return self.__alone
+    def is_alone(self):
+        return self._alone
 
-  def get_parent(self):
-    return self.__parent
+    @property
+    def parent(self):
+        return self._parent
 
-  def get_right(self):
-    return self.__right
+    @property
+    def right(self):
+        return self._right
 
-  def get_left(self):
-    return self.__left
+    @property
+    def left(self):
+        return self._left
 
-  def is_leaf(self):
-    return self.__right == None and self.__left == None
-  
-  def check_comparable(self, value):
-    try:
-      self._data > value
-    except TypeError:
-      print("TypeError has occurred!")
+    def is_leaf(self):
+        return self._right == None and self._Sleft == None
+
+    def check_comparable(self, value):
+        try:
+            self._data > value
+        except TypeError:
+            print("TypeError has occurred!")
+
+    def add(self, data):
+
+        try:
+            self._data > data
+        except:
+            raise TypeError("TypeError has occurred!")
+
+
+        if data <= self._data:
+            if self._left:
+                self._left.add(data)
+            else:
+                self._left = BinaryNode(data)
+        else:
+            if self._right:
+                self._right.add(data)
+            else:
+                self._right = BinaryNode(data)
 
 class BinaryTree:
-  def __init__(self):
-    self.__root = None
-    self.__size = 0
+    def __init__(self):
+        self._root = None
+        self._size = 0
 
-  def set_root(self, root):
-    self.__root = root
+    def set_root(self, root):
+        self._root = root
 
-  def get_root(self):
-    return self.__root
+    @property
+    def root(self):
+        return self._root
 
-  def get_size(self):
-    return self.__size
+    @property
+    def size(self):
+        return self._size
 
-  def select_branch(self, node, value):
-    if value < node.get_data():
-      return node.get_left()
-    elif value > node.get_data:
-      return node.get_right()
+    def add(self, data):
+        if self._root is None:
+            self._root = BinaryNode(data)
+        else:
+            self._root.add(data)
 
-  def find(self, value):
-    if value == self.__root.get_data():
-      return self.__root
-    
-    else:
-      return self.select_branch(self.__root, value)
+    def select_branch(self, node, data):
+        if data < node.data:
+            return node.left
+        elif data > node.data:
+            return node.right
 
-aaa = BinaryNode(10)
-bbb = BinaryNode(5)
-ccc = BinaryNode(15)
+    def find(self, data):
+        if data == self._root.data:
+            return self._root
 
-aaa.set_left(bbb)
-aaa.set_right(ccc)
+        else:
+            return self.select_branch(self._root, value)
 
-AAA = BinaryTree()
-AAA.set_root(aaa)
+if __name__ == '__main__':
 
-print(AAA.find(4).get_data())
+    aaa = BinaryTree()
 
+    aaa.add(12)
+    aaa.add(1)
+    try:
+        aaa.add("c")
+    except TypeError as e:
+        print(e)
+
+    print(aaa.root.data)
+    print(aaa.root.right)
+    print(aaa.root.left)
